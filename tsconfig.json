@@ -1,3 +1,16 @@
 {
+  "compilerOptions": {
+    "paths": {
+      "@/components/*": ["./src/components/*"],
+      "@/views/*": ["./src/views/*"],
+      "@/config/*": ["./src/config/*"],
+      "@/hooks/*": ["./src/hooks/*"],
+      "@/native-modules/*": ["./src/native-modules/*"],
+      "@/routes/*": ["./src/routes/*"],
+      "@/store/*": ["./src/store/*"],
+      "@/types/*": ["./src/types/*"],
+      "@/utils/*": ["./src/utils/*"]
+    }
+  },
   "extends": "@react-native/typescript-config/tsconfig.json"
 }
