@@ -5,7 +5,7 @@
       "@/views/*": ["./src/views/*"],
       "@/config/*": ["./src/config/*"],
       "@/hooks/*": ["./src/hooks/*"],
-      "@/enums/*": ["./src/utenumsils/*"],
+      "@/enums/*": ["./src/enums/*"],
       "@/native-modules/*": ["./src/native-modules/*"],
       "@/routes/*": ["./src/routes/*"],
       "@/store/*": ["./src/store/*"],

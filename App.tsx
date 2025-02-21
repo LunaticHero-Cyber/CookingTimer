@@ -5,10 +5,10 @@
  * @format
  */
 
+import {colors} from '@/enums/colors';
 import HomePage from '@/views/HomePage';
 import React from 'react';
 import {StatusBar, useColorScheme, View} from 'react-native';
-import {colors} from './src/enums/colors';
 
 function App(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
