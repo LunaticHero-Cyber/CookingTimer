@@ -6,22 +6,22 @@
  */
 
 import {colors} from '@/enums/colors';
-import HomePage from '@/views/HomePage';
-import React from 'react';
-import {StatusBar, useColorScheme, View} from 'react-native';
+import RootNavigation from '@/routes/root.navigation';
+import React, {FunctionComponent} from 'react';
+import {StatusBar, useColorScheme} from 'react-native';
 
-function App(): React.JSX.Element {
+const App: FunctionComponent = (): React.JSX.Element => {
   const isDarkMode = useColorScheme() === 'dark';
 
   return (
-    <View>
+    <>
       <StatusBar
         barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={colors.lightPink}
+        backgroundColor={colors.Pink5}
       />
-      <HomePage />
-    </View>
+      <RootNavigation />
+    </>
   );
-}
+};
 
 export default App;

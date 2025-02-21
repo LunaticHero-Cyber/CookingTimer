@@ -1,18 +1,18 @@
-import React, {Fragment, FunctionComponent} from 'react';
-import {ScrollView, Text} from 'react-native';
+import React, {FunctionComponent} from 'react';
+import {SafeAreaView, ScrollView, Text} from 'react-native';
 import {styles} from './style';
 
 interface HomePageProps {}
 
 const HomePage: FunctionComponent<HomePageProps> = () => {
   return (
-    <Fragment>
+    <SafeAreaView style={styles.container} testID="home-view">
       <ScrollView
-        style={styles.container}
+        style={styles.scrollView}
         contentContainerStyle={styles.contentContainer}>
         <Text>All starts smol</Text>
       </ScrollView>
-    </Fragment>
+    </SafeAreaView>
   );
 };
 
