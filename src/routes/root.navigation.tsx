@@ -25,7 +25,7 @@ const RootNavigation = () => {
           screenOptions={{
             headerShown: true,
             headerStyle: {
-              backgroundColor: colors.Pink4,
+              backgroundColor: colors.Pink3,
             },
             headerTintColor: '#FFFFFF',
             headerTitleAlign: 'center',
