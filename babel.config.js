@@ -11,6 +11,7 @@ module.exports = {
           '@/config': './src/config',
           '@/native-modules': './src/native-modules',
           '@/hooks': './src/hooks',
+          '@/enums': './src/enums',
           '@/routes': './src/routes',
           '@/store': './src/store',
           '@/types': './src/types',
