@@ -7,10 +7,23 @@ export const styles = StyleSheet.create({
   },
   scrollView: {
     paddingHorizontal: 24,
+
+    marginVertical: -4,
+
     backgroundColor: colors.Pink1,
   },
   contentContainer: {
     flex: 1,
-    marginVertical: 16,
+
+    display: 'flex',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+
+    marginVertical: 36,
+  },
+  recipeItem: {
+    width: '50%',
+
+    marginVertical: 4,
   },
 });

@@ -12,7 +12,7 @@ instance.interceptors.request.use(storeKey, function (error) {
 });
 
 instance.interceptors.response.use(responseInterceptor, function (error) {
-  console.error('error response', error.response);
+  console.error('error response', error);
   return Promise.reject(error);
 });
 
