@@ -9,11 +9,13 @@ import {styles} from './style';
 
 interface RecipeItemProps extends Omit<ViewProps, 'onLayout'> {
   recipe: Recipe;
+  onPress: () => void;
   onSelectSteps: (selectedSteps: number) => void;
 }
 
 const RecipeItem: FunctionComponent<RecipeItemProps> = ({
   recipe,
+  onPress,
   onSelectSteps,
   ...attrs
 }) => {
@@ -91,7 +93,12 @@ const RecipeItem: FunctionComponent<RecipeItemProps> = ({
         minY={0}
         maxX={viewLayout.x}
         maxY={viewLayout.y}
-        onDrag={() => setIsDragging(true)}
+        onShortPressRelease={onPress}
+        onDrag={(_, gestureState) => {
+          if (Math.abs(gestureState.dx) > 3 || Math.abs(gestureState.dy) > 3) {
+            setIsDragging(true);
+          }
+        }}
         onDragRelease={(_, gestureState) => {
           let degrees = Math.PI;
           let degreesList: number[] = [];

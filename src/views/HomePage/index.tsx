@@ -2,14 +2,17 @@ import React, {FunctionComponent, useEffect, useState} from 'react';
 import {SafeAreaView, ScrollView} from 'react-native';
 
 import axios from '@/config/axios';
+import {RootStackScreenProps} from '@/routes/root.navigation';
 import {Recipe} from '@/types/recipe';
 
-import {styles} from './style';
 import RecipeItem from './_components/RecipeItem';
+import {styles} from './style';
 
-interface HomePageProps {}
+export interface HomePageProps {}
 
-const HomePage: FunctionComponent<HomePageProps> = () => {
+export type HomePageScreenProps = RootStackScreenProps<'Home'>;
+
+const HomePage: FunctionComponent<HomePageScreenProps> = ({navigation}) => {
   const [recipes, setRecipes] = useState<Recipe[]>([]);
 
   useEffect(() => {
@@ -33,9 +36,14 @@ const HomePage: FunctionComponent<HomePageProps> = () => {
             <RecipeItem
               key={recipe.id}
               recipe={recipe}
-              onSelectSteps={selectedSteps =>
-                console.log(recipe.steps[selectedSteps])
-              }
+              onPress={() => {
+                const selectedStep = recipe.steps[0];
+                navigation.navigate('Step', {selectedStep: selectedStep});
+              }}
+              onSelectSteps={selectedStepIndex => {
+                const selectedStep = recipe.steps[selectedStepIndex];
+                navigation.navigate('Step', {selectedStep: selectedStep});
+              }}
               style={styles.recipeItem}
             />
           );

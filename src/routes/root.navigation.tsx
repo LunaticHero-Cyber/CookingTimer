@@ -1,11 +1,12 @@
 import React from 'react';
 
+import {colors} from '@/enums/colors';
+import HomePage from '@/views/HomePage';
+import StepPage from '@/views/StepPage';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator, StackScreenProps} from '@react-navigation/stack';
 
 import {RootStackParamList} from './interface.route';
-import HomePage from '@/views/HomePage';
-import {colors} from '@/enums/colors';
 
 export type RootStackScreenProps<T extends keyof RootStackParamList> =
   StackScreenProps<RootStackParamList, T>;
@@ -34,6 +35,7 @@ const RootNavigation = () => {
             },
           }}>
           <Stack.Screen name="Home" component={HomePage} />
+          <Stack.Screen name="Step" component={StepPage} />
         </Stack.Group>
       </Stack.Navigator>
     </NavigationContainer>

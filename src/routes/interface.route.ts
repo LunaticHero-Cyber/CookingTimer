@@ -1,7 +1,9 @@
-export interface HomeParams {}
+import {HomePageProps} from '@/views/HomePage';
+import {StepPageProps} from '@/views/StepPage';
 
 export interface ConfirmPinRouteParams {}
 
 export type RootStackParamList = {
-  Home: HomeParams;
+  Home: HomePageProps;
+  Step: StepPageProps;
 };
