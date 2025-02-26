@@ -2,7 +2,8 @@ import {StyleSheet} from 'react-native';
 
 export const styles = StyleSheet.create({
   stepsText: {
-    textAlign: 'center',
+    position: 'relative',
+    left: '-50%',
   },
   recipeName: {
     position: 'absolute',
@@ -10,7 +11,6 @@ export const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
     justifyContent: 'center',
-    height: 140,
   },
   lottieView: {
     width: 120,

@@ -13,51 +13,63 @@ interface RecipeItemProps extends Omit<ViewProps, 'onLayout'> {
   onSelectSteps: (selectedSteps: number) => void;
 }
 
+var bigdecimal = require('bigdecimal');
+
 const RecipeItem: FunctionComponent<RecipeItemProps> = ({
   recipe,
   onPress,
   onSelectSteps,
   ...attrs
 }) => {
+  const PI = useMemo(
+    () => new bigdecimal.BigDecimal('3.141592653589793238462643383279'),
+    [],
+  );
   const [viewLayout, setViewLayout] = useState({x: 0, y: 0});
   const {style, ...rest} = attrs;
 
   const [isDragging, setIsDragging] = useState(false);
 
   const eachStepDegrees = useMemo(
-    () => (Math.PI * 2) / recipe.steps.length,
-    [recipe.steps.length],
+    () => (PI * 2) / recipe.steps.length,
+    [PI, recipe.steps.length],
   );
 
-  const getXOfStep = useCallback((pi: number) => {
-    return 60 * Math.cos(pi);
-  }, []);
+  const getXOfStep = useCallback(
+    (pi: number) => {
+      return ((viewLayout.x * 80) / 200) * Math.cos(pi);
+    },
+    [viewLayout.x],
+  );
 
-  const getYOfStep = useCallback((pi: number) => {
-    return 60 * Math.sin(pi);
-  }, []);
+  const getYOfStep = useCallback(
+    (pi: number) => {
+      return ((viewLayout.x * 80) / 200) * Math.sin(pi);
+    },
+    [viewLayout.x],
+  );
 
   const dynamicStyle = StyleSheet.create({
+    container: {
+      height: viewLayout.x,
+    },
     recipeName: {
       bottom: 0,
     },
   });
 
   const StepsView = useMemo(() => {
-    let degrees = Math.PI;
+    let degrees = PI / 2;
 
     return (
       <>
         {recipe.steps.map((value, index) => {
           const stepDynamicStyle = StyleSheet.create({
             step: {
-              width: 100,
               position: 'absolute',
 
-              top: getXOfStep(degrees) + viewLayout.x / 2 - 30,
-              left: getYOfStep(degrees) + viewLayout.x / 2 - 50,
-
-              justifyContent: 'center',
+              bottom: getYOfStep(degrees) + (viewLayout.x * 80) / 200,
+              left: getXOfStep(degrees) + viewLayout.x / 2,
             },
           });
 
@@ -71,11 +83,11 @@ const RecipeItem: FunctionComponent<RecipeItemProps> = ({
         })}
       </>
     );
-  }, [eachStepDegrees, getXOfStep, getYOfStep, recipe.steps, viewLayout.x]);
+  }, [PI, eachStepDegrees, getXOfStep, getYOfStep, recipe.steps, viewLayout.x]);
 
   return (
     <View
-      style={[styles.container, style]}
+      style={[styles.container, style, dynamicStyle.container]}
       {...rest}
       onLayout={event =>
         setViewLayout({
@@ -100,12 +112,12 @@ const RecipeItem: FunctionComponent<RecipeItemProps> = ({
           }
         }}
         onDragRelease={(_, gestureState) => {
-          let degrees = Math.PI;
+          let degrees = PI;
           let degreesList: number[] = [];
 
           const difference = (a: number, b: number) => {
             var d = Math.abs(a - b);
-            return d > Math.PI ? Math.PI * 2 - d : d;
+            return d > PI ? PI * 2 - d : d;
           };
 
           const closest = (a: number, list: number[]) => {
