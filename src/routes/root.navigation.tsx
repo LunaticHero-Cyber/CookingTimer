@@ -16,11 +16,10 @@ const RootNavigation = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        // initialRouteName="Home"
+        initialRouteName="Home"
         screenListeners={{
           state: e => console.log('state changed', e.data),
         }}>
-        {/* White navbar without title */}
         <Stack.Group
           screenOptions={{
             headerShown: true,

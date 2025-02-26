@@ -12,4 +12,8 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     height: 140,
   },
+  lottieView: {
+    width: 120,
+    height: 80,
+  },
 });

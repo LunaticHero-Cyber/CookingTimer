@@ -1,21 +1,20 @@
+import LottieView from 'lottie-react-native';
 import React, {FunctionComponent, useCallback, useMemo, useState} from 'react';
 import {StyleSheet, Text, View, ViewProps} from 'react-native';
+import Draggable from 'react-native-draggable';
 
 import {Recipe} from '@/types/recipe';
 
 import {styles} from './style';
-import Draggable from 'react-native-draggable';
 
 interface RecipeItemProps extends Omit<ViewProps, 'onLayout'> {
   recipe: Recipe;
-  currentIndex: number;
-  positions: {x: number; y: number}[];
+  onSelectSteps: (selectedSteps: number) => void;
 }
 
 const RecipeItem: FunctionComponent<RecipeItemProps> = ({
   recipe,
-  positions,
-  currentIndex,
+  onSelectSteps,
   ...attrs
 }) => {
   const [viewLayout, setViewLayout] = useState({x: 0, y: 0});
@@ -47,7 +46,7 @@ const RecipeItem: FunctionComponent<RecipeItemProps> = ({
 
     return (
       <>
-        {recipe.steps.map(value => {
+        {recipe.steps.map((value, index) => {
           const stepDynamicStyle = StyleSheet.create({
             step: {
               width: 100,
@@ -60,10 +59,10 @@ const RecipeItem: FunctionComponent<RecipeItemProps> = ({
             },
           });
 
-          degrees = degrees + eachStepDegrees;
+          degrees = degrees - eachStepDegrees;
 
           return (
-            <View style={stepDynamicStyle.step}>
+            <View key={`${value.name}-${index}`} style={stepDynamicStyle.step}>
               <Text style={styles.stepsText}>{value.name}</Text>
             </View>
           );
@@ -86,15 +85,46 @@ const RecipeItem: FunctionComponent<RecipeItemProps> = ({
 
       <Draggable
         shouldReverse
-        x={viewLayout.x / 2 - 40}
-        y={viewLayout.y / 2 - 10}
+        x={viewLayout.x / 2 - 60}
+        y={viewLayout.y / 2 - 40}
         minX={0}
         minY={0}
         maxX={viewLayout.x}
         maxY={viewLayout.y}
         onDrag={() => setIsDragging(true)}
-        onDragRelease={() => setIsDragging(false)}>
-        <Text>THIS IMAGE</Text>
+        onDragRelease={(_, gestureState) => {
+          let degrees = Math.PI;
+          let degreesList: number[] = [];
+
+          const difference = (a: number, b: number) => {
+            var d = Math.abs(a - b);
+            return d > Math.PI ? Math.PI * 2 - d : d;
+          };
+
+          const closest = (a: number, list: number[]) => {
+            var ds = list.map(b => {
+              return difference(a, b);
+            });
+            return ds.indexOf(Math.min.apply(null, ds));
+          };
+
+          const releasedRadians = Math.atan2(gestureState.dx, gestureState.dy);
+
+          for (let i = 0; i < recipe.steps.length; i++) {
+            degreesList = degreesList.concat(degrees);
+            degrees = degrees - eachStepDegrees;
+          }
+          const selected = closest(releasedRadians, degreesList);
+
+          onSelectSteps(selected);
+          setIsDragging(false);
+        }}>
+        <LottieView
+          source={recipe.animation}
+          autoPlay
+          loop
+          style={styles.lottieView}
+        />
       </Draggable>
 
       <Text
