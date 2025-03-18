@@ -85,6 +85,11 @@ const RecipeItem: FunctionComponent<RecipeItemProps> = ({
     );
   }, [PI, eachStepDegrees, getXOfStep, getYOfStep, recipe.steps, viewLayout.x]);
 
+  const lottieAnimetionJson = useMemo(
+    () => JSON.parse(recipe.animation),
+    [recipe.animation],
+  );
+
   return (
     <View
       style={[styles.container, style, dynamicStyle.container]}
@@ -139,7 +144,7 @@ const RecipeItem: FunctionComponent<RecipeItemProps> = ({
           setIsDragging(false);
         }}>
         <LottieView
-          source={recipe.animation}
+          source={lottieAnimetionJson}
           autoPlay
           loop
           style={styles.lottieView}
@@ -151,7 +156,7 @@ const RecipeItem: FunctionComponent<RecipeItemProps> = ({
           styles.recipeName,
           !isDragging ? dynamicStyle.recipeName : null,
         ]}>
-        {isDragging ? 'Going to...' : recipe.name}
+        {isDragging ? 'Skip to...' : recipe.name}
       </Text>
     </View>
   );
