@@ -1,5 +1,11 @@
-import React, {FunctionComponent} from 'react';
-import {SafeAreaView, ScrollView, Text} from 'react-native';
+import React, {
+  FunctionComponent,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
+import {Button, SafeAreaView, ScrollView, Text} from 'react-native';
 
 import {RootStackScreenProps} from '@/routes/root.navigation';
 import {Step} from '@/types/recipe';
@@ -17,14 +23,62 @@ const StepPage: FunctionComponent<StepPageScreenProps> = ({
     params: {selectedStep},
   },
 }) => {
+  const interval = useRef<NodeJS.Timeout>();
+
+  const [timer, setTimer] = useState(selectedStep.time + 63000);
+  const [status, setStatus] = useState('STOP');
+
+  const startCountdown = () => setStatus('START');
+  const stopCountdown = () => setStatus('STOP');
+  const resetCountdown = () => {
+    setStatus('STOP');
+    setTimer(selectedStep.time);
+  };
+
+  const timeString = useMemo(() => {
+    const newDateTime = new Date(timer);
+    const minutes =
+      newDateTime.getMinutes().toString().length === 1
+        ? `0${newDateTime.getMinutes().toString()}`
+        : newDateTime.getMinutes().toString();
+
+    const seconds =
+      newDateTime.getSeconds().toString().length === 1
+        ? `0${newDateTime.getSeconds().toString()}`
+        : newDateTime.getSeconds().toString();
+
+    return `${minutes}:${seconds}`;
+  }, [timer]);
+
+  useEffect(() => {
+    if (status === 'START') {
+      interval.current && clearInterval(interval.current);
+      interval.current = setInterval(() => {
+        const newTimer = timer - 1000;
+        setTimer(newTimer);
+
+        if (timer === 0) {
+          interval.current && clearInterval(interval.current);
+        }
+      }, 1000);
+    } else if (status === 'STOP') {
+      clearInterval(interval.current);
+    }
+
+    return () => clearInterval(interval.current);
+  }, [timer, status]);
+
   return (
     <SafeAreaView style={styles.container} testID="home-view">
       <ScrollView
         style={styles.scrollView}
         contentContainerStyle={styles.contentContainer}>
-        <Text>
-          {selectedStep.name} - {selectedStep.time}
-        </Text>
+        <Text style={styles.stepText}>{selectedStep.name}</Text>
+        <Text style={styles.timerText}>{timeString}</Text>
+        <Button title="Start the step" onPress={startCountdown} />
+        <Button title="Stop step" onPress={stopCountdown} />
+        <Button title="Reset countdown" onPress={resetCountdown} />
+        <Button title="Next step" />
       </ScrollView>
     </SafeAreaView>
   );

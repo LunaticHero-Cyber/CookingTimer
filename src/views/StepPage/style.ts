@@ -15,11 +15,16 @@ export const styles = StyleSheet.create({
   contentContainer: {
     flex: 1,
 
-    display: 'flex',
-    flexDirection: 'row',
-    flexWrap: 'wrap',
+    alignItems: 'center',
+    justifyContent: 'center',
 
     marginVertical: 36,
+  },
+  stepText: {
+    marginVertical: 18,
+  },
+  timerText: {
+    marginVertical: 18,
   },
   recipeItem: {
     width: '50%',
