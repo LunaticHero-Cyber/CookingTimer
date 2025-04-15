@@ -1,6 +1,5 @@
-import LottieView from 'lottie-react-native';
 import React, {FunctionComponent, useCallback, useMemo, useState} from 'react';
-import {StyleSheet, Text, View, ViewProps} from 'react-native';
+import {Image, StyleSheet, Text, View, ViewProps} from 'react-native';
 import Draggable from 'react-native-draggable';
 
 import {Recipe} from '@/types/recipe';
@@ -34,6 +33,18 @@ const RecipeItem: FunctionComponent<RecipeItemProps> = ({
     () => (PI * 2) / recipe.steps.length,
     [PI, recipe.steps.length],
   );
+
+  const xPosition = useMemo(() => {
+    const draggingOffset = isDragging ? 45 : 60;
+
+    return viewLayout.x / 2 - draggingOffset;
+  }, [isDragging, viewLayout.x]);
+
+  const yPosition = useMemo(() => {
+    const draggingOffset = isDragging ? 30 : 40;
+
+    return viewLayout.y / 2 - draggingOffset;
+  }, [isDragging, viewLayout.y]);
 
   const getXOfStep = useCallback(
     (pi: number) => {
@@ -85,10 +96,7 @@ const RecipeItem: FunctionComponent<RecipeItemProps> = ({
     );
   }, [PI, eachStepDegrees, getXOfStep, getYOfStep, recipe.steps, viewLayout.x]);
 
-  const lottieAnimetionJson = useMemo(
-    () => JSON.parse(recipe.animation),
-    [recipe.animation],
-  );
+  const imageBase64 = useMemo(() => recipe.image, [recipe.image]);
 
   return (
     <View
@@ -104,8 +112,8 @@ const RecipeItem: FunctionComponent<RecipeItemProps> = ({
 
       <Draggable
         shouldReverse
-        x={viewLayout.x / 2 - 60}
-        y={viewLayout.y / 2 - 40}
+        x={xPosition}
+        y={yPosition}
         minX={0}
         minY={0}
         maxX={viewLayout.x}
@@ -143,11 +151,9 @@ const RecipeItem: FunctionComponent<RecipeItemProps> = ({
           onSelectSteps(selected);
           setIsDragging(false);
         }}>
-        <LottieView
-          source={lottieAnimetionJson}
-          autoPlay
-          loop
-          style={styles.lottieView}
+        <Image
+          style={!isDragging ? styles.image : styles.imageDragged}
+          source={{uri: imageBase64}}
         />
       </Draggable>
 

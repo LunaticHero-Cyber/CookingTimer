@@ -12,8 +12,12 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  lottieView: {
+  image: {
     width: 120,
     height: 80,
+  },
+  imageDragged: {
+    width: 90,
+    height: 60,
   },
 });

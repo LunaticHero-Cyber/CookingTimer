@@ -7,6 +7,6 @@ export type Recipe = {
   id: number;
   name: string;
   timeTaken: number;
-  animation: any;
+  image: string;
   steps: Step[];
 };
