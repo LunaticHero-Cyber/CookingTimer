@@ -7,28 +7,41 @@ export const styles = StyleSheet.create({
   },
   scrollView: {
     paddingHorizontal: 24,
-
     marginVertical: -4,
-
     backgroundColor: colors.Pink1,
   },
   contentContainer: {
     flex: 1,
-
     alignItems: 'center',
     justifyContent: 'center',
-
     marginVertical: 36,
   },
-  stepText: {
+  stepTextContainer: {
+    flex: 2,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginVertical: 36,
+  },
+  stepImage: {
+    width: 120,
+    height: 120,
+    alignItems: 'center',
+    justifyContent: 'center',
     marginVertical: 18,
+    backgroundColor: 'red',
+  },
+  stepText: {
+    marginBottom: 8,
   },
   timerText: {
-    marginVertical: 18,
+    marginBottom: 32,
   },
-  recipeItem: {
-    width: '50%',
-
-    marginVertical: 4,
+  buttonsContainer: {
+    flex: 1,
+    alignItems: 'center',
+    marginVertical: 36,
+  },
+  buttons: {
+    marginBottom: 8,
   },
 });

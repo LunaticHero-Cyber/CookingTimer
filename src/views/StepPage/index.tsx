@@ -5,12 +5,13 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import {Button, SafeAreaView, ScrollView, Text} from 'react-native';
+import {SafeAreaView, ScrollView, Text, View} from 'react-native';
 
 import {RootStackScreenProps} from '@/routes/root.navigation';
 import {Step} from '@/types/recipe';
 
 import {styles} from './style';
+import Button from '@/components/atoms/Buttons';
 
 export interface StepPageProps {
   selectedStep: Step;
@@ -83,12 +84,26 @@ const StepPage: FunctionComponent<StepPageScreenProps> = ({
       <ScrollView
         style={styles.scrollView}
         contentContainerStyle={styles.contentContainer}>
-        <Text style={styles.stepText}>{selectedStep.name}</Text>
-        <Text style={styles.timerText}>{timeString}</Text>
-        <Button title="Start the step" onPress={startCountdown} />
-        <Button title="Stop step" onPress={stopCountdown} />
-        <Button title="Reset countdown" onPress={resetCountdown} />
-        <Button title="Next step" />
+        <View style={styles.stepTextContainer}>
+          <View style={styles.stepImage}>
+            <Text>Big Step Images</Text>
+          </View>
+          <Text style={styles.stepText}>{selectedStep.name}</Text>
+          <Text style={styles.timerText}>{timeString}</Text>
+        </View>
+        <View style={styles.buttonsContainer}>
+          <Button onPress={startCountdown} style={styles.buttons}>
+            <Text>Start</Text>
+          </Button>
+          <Button onPress={stopCountdown} style={styles.buttons}>
+            <Text>Stop</Text>
+          </Button>
+          {status !== 'START' && timer !== selectedStep.time ? (
+            <Button onPress={resetCountdown} style={styles.buttons}>
+              <Text>Reset Countdown</Text>
+            </Button>
+          ) : null}
+        </View>
       </ScrollView>
     </SafeAreaView>
   );
