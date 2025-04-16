@@ -25,7 +25,7 @@ const StepPage: FunctionComponent<StepPageScreenProps> = ({
 }) => {
   const interval = useRef<NodeJS.Timeout>();
 
-  const [timer, setTimer] = useState(selectedStep.time + 63000);
+  const [timer, setTimer] = useState(selectedStep.time);
   const [status, setStatus] = useState('STOP');
 
   const startCountdown = () => setStatus('START');
@@ -36,7 +36,13 @@ const StepPage: FunctionComponent<StepPageScreenProps> = ({
   };
 
   const timeString = useMemo(() => {
-    const newDateTime = new Date(timer);
+    const newDateTime = new Date(timer * 1000);
+
+    const hours =
+      newDateTime.getUTCHours().toString().length === 1
+        ? `0${newDateTime.getUTCHours().toString()}`
+        : newDateTime.getUTCHours().toString();
+
     const minutes =
       newDateTime.getMinutes().toString().length === 1
         ? `0${newDateTime.getMinutes().toString()}`
@@ -47,14 +53,18 @@ const StepPage: FunctionComponent<StepPageScreenProps> = ({
         ? `0${newDateTime.getSeconds().toString()}`
         : newDateTime.getSeconds().toString();
 
-    return `${minutes}:${seconds}`;
+    if (!newDateTime.getUTCHours()) {
+      return `${minutes}:${seconds}`;
+    }
+
+    return `${hours}:${minutes}:${seconds}`;
   }, [timer]);
 
   useEffect(() => {
     if (status === 'START') {
       interval.current && clearInterval(interval.current);
       interval.current = setInterval(() => {
-        const newTimer = timer - 1000;
+        const newTimer = timer - 1;
         setTimer(newTimer);
 
         if (timer === 0) {
