@@ -8,23 +8,17 @@ import {Recipe} from '@/types/recipe';
 import RecipeItem from './_components/RecipeItem';
 import {styles} from './style';
 
-export interface HomePageProps {}
+export interface HomePageProps {
+  recipes: Recipe[];
+}
 
 export type HomePageScreenProps = RootStackScreenProps<'Home'>;
 
-const HomePage: FunctionComponent<HomePageScreenProps> = ({navigation}) => {
-  const [recipes, setRecipes] = useState<Recipe[]>([]);
-
-  useEffect(() => {
-    (async () => {
-      const newRecipes = await axios.get<{data: Recipe[]}>('/recipes');
-      if (!newRecipes.data.data) {
-        return;
-      }
-
-      setRecipes(newRecipes.data.data);
-    })();
-  }, []);
+const HomePage: FunctionComponent<HomePageScreenProps> = ({
+  navigation,
+  route,
+}) => {
+  const [recipes, setRecipes] = useState<Recipe[]>(route.params.recipes);
 
   return (
     <SafeAreaView style={styles.container} testID="home-view">

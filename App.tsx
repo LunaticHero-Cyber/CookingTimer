@@ -5,10 +5,11 @@
  * @format
  */
 
-import {colors} from '@/enums/colors';
-import RootNavigation from '@/routes/root.navigation';
 import React, {FunctionComponent} from 'react';
 import {StatusBar, useColorScheme} from 'react-native';
+
+import {colors} from '@/enums/colors';
+import RootNavigation from '@/routes/root.navigation';
 
 const App: FunctionComponent = (): React.JSX.Element => {
   const isDarkMode = useColorScheme() === 'dark';
